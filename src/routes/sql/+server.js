@@ -35,3 +35,26 @@ function checkAuth(request) {
 
     return user === API_USER && pass === API_PASS;
 }
+
+export async function POST({ request }) {
+
+    if (!checkAuth(request)) {
+        return Response.json({ message: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { id, name, location, type, description } = await request.json();
+
+    if (!id || !name || !location || !type || !description) {
+        return Response.json({ message: 'Missing required fields' }, { status: 400 });
+    }
+
+    const [result] = await pool.query(
+        'INSERT INTO Museums (id, name, location, type, description) VALUES (?, ?, ?, ?, ?)',
+        [id, name, location, type, description]
+    );
+
+    return Response.json(
+        { message: 'Museum created', id: id },
+        { status: 201 }
+    );
+}
