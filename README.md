@@ -1,42 +1,27 @@
-# sv
+This is an REST API page for Museums in Albania
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+This project is a REST API built with SvelteKit that provides information about museums in Albania.
+The API allows users to retrieve museum data and allows authorized users to create, update, and delete museums.
+The project focuses on clean REST design, proper HTTP status codes, authentication, and a well documented development process using Git.
 
-## Creating a project
+Technologies
 
-If you're seeing this, you've probably already done this step. Congrats!
+SvelteKit
+Node.js
+MySQL
+REST API
+Basic Authentication
+Postman for API testing
 
-```sh
-# create a new project
-npx sv create my-app
-```
+Database Structure
 
-To recreate this project with the same configuration:
+Table: Museums
 
-```sh
-# recreate this project
-npx sv@0.12.6 create --template minimal --no-types --add prettier eslint --install npm .
-```
+| Field | Description |
+|------|-------------|
+| id | Unique ID |
+| name | Name of the museum |
+| location | City or region |
+| type | Type of museum |
+| description | Short description |
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
