@@ -11,3 +11,21 @@ function checkAuth(request) {
 
     return user === API_USER && pass === API_PASS;
 }
+
+export async function GET({ params }) {
+    const { id } = params;
+
+    const [rows] = await pool.query(
+        'SELECT * FROM Museums WHERE id = ?',
+        [id]
+    );
+
+    if (rows.length === 0) {
+        return Response.json(
+            { message: 'Museum not found' },
+            { status: 404 }
+        );
+    }
+
+    return Response.json(rows[0], { status: 200 });
+}
