@@ -29,3 +29,40 @@ export async function GET({ params }) {
 
     return Response.json(rows[0], { status: 200 });
 }
+
+export async function PUT({ params, request }) {
+
+    if (!checkAuth(request)) {
+        return Response.json(
+            { message: 'Unauthorized' },
+            { status: 401 }
+        );
+    }
+
+    const { id } = params;
+    const { name, location, type, description } = await request.json();
+
+    if (!name || !location || !type || !description) {
+        return Response.json(
+            { message: 'Missing required fields' },
+            { status: 400 }
+        );
+    }
+
+    const [result] = await pool.query(
+        'UPDATE Museums SET name = ?, location = ?, type = ?, description = ? WHERE id = ?',
+        [name, location, type, description, id]
+    );
+
+    if (result.affectedRows === 0) {
+        return Response.json(
+            { message: 'Museum not found' },
+            { status: 404 }
+        );
+    }
+
+    return Response.json(
+        { message: 'Museum updated' },
+        { status: 200 }
+    );
+}
