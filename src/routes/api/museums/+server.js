@@ -1,9 +1,11 @@
 import pool from '$lib/server/database.js';
 import { API_USER, API_PASS } from '$env/static/private';
 
+/* Checks Basic Authentication (username & password) */
 function checkAuth(request) {
     const auth = request.headers.get('Authorization');
 
+    // Extract and decode Basic Auth credentials, then compare with ENV variables
     if (!auth?.startsWith('Basic ')) return false;
     const base64 = auth.slice(6);
     const decoded = atob(base64);
@@ -12,6 +14,7 @@ function checkAuth(request) {
     return user === API_USER && pass === API_PASS;
 }
 
+/* This function is used to return one museum based on the ID */
 export async function GET({ params }) {
     const { id } = params;
 
@@ -20,6 +23,7 @@ export async function GET({ params }) {
         [id]
     );
 
+    // If no museum is found then return 404, otherwise return the museum
     if (rows.length === 0) {
         return Response.json(
             { message: 'Museum not found' },
@@ -30,6 +34,7 @@ export async function GET({ params }) {
     return Response.json(rows[0], { status: 200 });
 }
 
+/* This function is used to updates a museum  */
 export async function PUT({ params, request }) {
 
     if (!checkAuth(request)) {
@@ -39,6 +44,7 @@ export async function PUT({ params, request }) {
         );
     }
 
+    // Extract ID from URL params and data from request body
     const { id } = params;
     const { name, location, type, description } = await request.json();
 
@@ -67,6 +73,7 @@ export async function PUT({ params, request }) {
     );
 }
 
+/* This function is used to delete a museum */
 export async function DELETE({ params, request }) {
 
     if (!checkAuth(request)) {
@@ -90,5 +97,6 @@ export async function DELETE({ params, request }) {
         );
     }
 
+    // When successfully deleted , no content returned (204)
     return new Response(null, { status: 204 });
 }
