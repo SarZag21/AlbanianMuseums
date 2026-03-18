@@ -6,16 +6,16 @@ The project focuses on clean REST design, proper HTTP status codes, authenticati
 
 Technologies
 
-SvelteKit
-Node.js
-MySQL
-REST API
-Basic Authentication
+SvelteKit,
+Node.js,
+MySQL,
+REST API,
+Basic Authentication,
 Postman for API testing
 
 Database Structure
 
-Table: Museums
+Table name : Museums
 
 | Field | Description |
 |------|-------------|
